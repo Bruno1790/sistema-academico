@@ -7,12 +7,24 @@ import java.util.List;
 
 public class AlunoRepository {
     private List <Aluno> alunos = new ArrayList<Aluno>();
+    private Long proximoId = 1L;
 
     public void salvar(Aluno aluno){
+        aluno.setId(proximoId);
+        proximoId++;
         alunos.add(aluno);
     }
 
     public List <Aluno> listar() {
         return alunos;
+    }
+
+    public Aluno buscarPorId(Long id) {
+        for (Aluno aluno : alunos) {
+            if (aluno.getId().equals(id)) {
+                return aluno;
+            }
+        }
+        return null;
     }
 }
