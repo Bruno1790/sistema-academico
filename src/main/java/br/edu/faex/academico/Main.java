@@ -50,5 +50,25 @@ public class Main {
         } else {
             System.out.println("Professor não encontrado.");
         }
+
+        alunoController.excluir(2L);
+        for (Aluno alunoLista : alunoController.listar()) {
+
+            System.out.println("ID: " + alunoLista.getId());
+            System.out.println("Nome: " + alunoLista.getNome());
+            System.out.println("E-mail: " + alunoLista.getEmail());
+            System.out.println("-------------------------");
+        }
+
+        Aluno alunoEditado = new Aluno("Maria Helena da Silva", "maria.silva@faex.edu.br");
+        alunoEditado.setId(2L);
+        alunoController.atualizar(alunoEditado);
+
+        System.out.println("----- ALUNOS APÓS ATUALIZAÇÃO -----");
+        for (Aluno alunoLista : alunoController.listar()) {
+            System.out.println("ID: " + alunoLista.getId());
+            System.out.println("Nome: " + alunoLista.getNome());
+            System.out.println("E-mail: " + alunoLista.getEmail());
+            System.out.println("-------------------------"); }
     }
 }

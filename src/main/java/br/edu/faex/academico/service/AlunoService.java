@@ -24,4 +24,40 @@ public class AlunoService {
         }
         return aluno;
     }
+
+    public void excluir(Long id){
+        Aluno aluno = repository.buscarPorId(id);
+        if (aluno == null){
+            System.out.println("Aluno não encontrado");
+            return;
+        }
+        repository.excluir(id);
+    }
+
+    public void atualizar(Aluno alunoEditado){
+        Aluno aluno = repository.buscarPorId(alunoEditado.getId());
+
+        if (aluno == null){
+            System.out.println("Aluno não encontrado");
+            return;
+        }
+
+        if (alunoEditado.getNome() == null || alunoEditado.getNome().isBlank()){
+            System.out.println("O nome do aluno é obrigatório.");
+            return;
+        }
+
+        if (alunoEditado.getEmail() == null || alunoEditado.getEmail().isBlank()){
+            System.out.println("O e-mail do aluno é obrigatório.");
+            return;
+        }
+
+        if (alunoEditado.getEmail().contains("@")){
+            System.out.println("E-mail inválido.");
+            return;
+        }
+
+        repository.atualizar(alunoEditado);
+        System.out.println("Aluno atualizado com sucesso!");
+    }
 }
