@@ -13,18 +13,45 @@ public class Main {
         AlunoService alunoService = new AlunoService();
         AlunoController alunoController = new AlunoController(alunoService);
 
+        System.out.println("===== TESTE 1: Cadastro de dois alunos com e-mails diferentes =====");
         Aluno aluno1 = new Aluno("Aleandro Ribeiro de Lima", "aleandro.lima@faex.edu.br");
         Aluno aluno2 = new Aluno("Maria Souza Silva", "maria.silva@faex.edu.br");
-
         alunoController.cadastrar(aluno1);
         alunoController.cadastrar(aluno2);
+        listarAlunos(alunoController);
 
-        for (Aluno aluno : alunoController.listar()) {
-            System.out.println("Nome: " + aluno.getNome());
-            System.out.println("E-mail: " + aluno.getEmail());
-            System.out.println("Ativo: " + aluno.isAtivo());
-        }
+        System.out.println("\n===== TESTE 2: Cadastro com e-mail já existente =====");
+        Aluno aluno3 = new Aluno("João Pedro Alves", "aleandro.lima@faex.edu.br");
+        alunoController.cadastrar(aluno3);
+        listarAlunos(alunoController);
 
+        System.out.println("\n===== TESTE 3: Atualizar o nome de um aluno mantendo o próprio e-mail =====");
+        Aluno aluno1NomeAtualizado = new Aluno("Aleandro Ribeiro de Lima Junior", "aleandro.lima@faex.edu.br");
+        aluno1NomeAtualizado.setId(aluno1.getId());
+        alunoController.atualizar(aluno1NomeAtualizado);
+        listarAlunos(alunoController);
+
+        System.out.println("\n===== TESTE 4: Atualizar e-mail de um aluno para um já usado por outro =====");
+        Aluno aluno1EmailDuplicado = new Aluno("Aleandro Ribeiro de Lima Junior", "MARIA.SILVA@faex.edu.br");
+        aluno1EmailDuplicado.setId(aluno1.getId());
+        alunoController.atualizar(aluno1EmailDuplicado);
+        listarAlunos(alunoController);
+
+        System.out.println("\n===== TESTE 5: Atualizar aluno com e-mail inválido =====");
+        Aluno aluno1EmailInvalido = new Aluno("Aleandro Ribeiro de Lima Junior", "aleandro.lima-faex.edu.br");
+        aluno1EmailInvalido.setId(aluno1.getId());
+        alunoController.atualizar(aluno1EmailInvalido);
+        listarAlunos(alunoController);
+
+        System.out.println("\n===== TESTE 6: Atualizar aluno com ID inexistente =====");
+        Aluno alunoInexistente = new Aluno("Fulano de Tal", "fulano@faex.edu.br");
+        alunoInexistente.setId(999L);
+        alunoController.atualizar(alunoInexistente);
+
+        System.out.println("\n===== LISTA FINAL DE ALUNOS =====");
+        listarAlunos(alunoController);
+
+        System.out.println("\n===== TESTE: Busca de aluno por ID =====");
         Aluno aluno = alunoController.buscarPorId(2L);
         if (aluno != null) {
             System.out.println("Aluno encontrado!");
@@ -35,6 +62,11 @@ public class Main {
             System.out.println("Aluno não encontrado.");
         }
 
+        System.out.println("\n===== TESTE: Exclusão de aluno =====");
+        alunoController.excluir(2L);
+        listarAlunos(alunoController);
+
+        System.out.println("\n===== TESTE: Cadastro e busca de professor =====");
         ProfessorService professorService = new ProfessorService();
         ProfessorController professorController = new ProfessorController(professorService);
 
@@ -50,25 +82,11 @@ public class Main {
         } else {
             System.out.println("Professor não encontrado.");
         }
+    }
 
-        alunoController.excluir(2L);
-        for (Aluno alunoLista : alunoController.listar()) {
-
-            System.out.println("ID: " + alunoLista.getId());
-            System.out.println("Nome: " + alunoLista.getNome());
-            System.out.println("E-mail: " + alunoLista.getEmail());
-            System.out.println("-------------------------");
+    private static void listarAlunos(AlunoController alunoController) {
+        for (Aluno aluno : alunoController.listar()) {
+            System.out.println("ID: " + aluno.getId() + " | Nome: " + aluno.getNome() + " | E-mail: " + aluno.getEmail());
         }
-
-        Aluno alunoEditado = new Aluno("Maria Helena da Silva", "maria.silva@faex.edu.br");
-        alunoEditado.setId(2L);
-        alunoController.atualizar(alunoEditado);
-
-        System.out.println("----- ALUNOS APÓS ATUALIZAÇÃO -----");
-        for (Aluno alunoLista : alunoController.listar()) {
-            System.out.println("ID: " + alunoLista.getId());
-            System.out.println("Nome: " + alunoLista.getNome());
-            System.out.println("E-mail: " + alunoLista.getEmail());
-            System.out.println("-------------------------"); }
     }
 }
