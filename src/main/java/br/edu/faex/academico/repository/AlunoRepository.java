@@ -88,20 +88,18 @@ public class AlunoRepository {
             Connection conexao = Conexao.conectar();
             PreparedStatement comando = conexao.prepareStatement(sql);
             comando.setLong(1, id);
-            ResultSet resultado = comando.executeQuery();
-            if (resultado.next()) {
-                Aluno aluno = new Aluno();
-                aluno.setId(resultado.getLong("id"));
-                aluno.setNome(resultado.getString("nome"));
-                aluno.setEmail(resultado.getString("email"));
-                aluno.setAtivo(resultado.getBoolean("ativo"));
-                return ;
+            int linhasAfetadas = comando.executeUpdate();
+            comando.close();
+            conexao.close();
 
+            if (linhasAfetadas > 0) {
+                System.out.println("Aluno excluído com sucesso!");
+            } else {
+                System.out.println("Nenhum aluno encontrado com o ID informado.");
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao listar: " + e.getMessage());
+            System.out.println("Erro ao excluir aluno: " + e.getMessage());
         }
-
     }
 
 
