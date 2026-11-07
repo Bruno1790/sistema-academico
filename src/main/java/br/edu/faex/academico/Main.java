@@ -32,6 +32,13 @@ public class Main {
             System.out.println("E-mail: " + aluno.getEmail());
             System.out.println("Ativo: " + aluno.isAtivo());
             System.out.println("--------------------------");
+
+            Aluno alunoEcontrado = controller.buscarPorId(5L);
+            if (alunoEcontrado != null) { System.out.println("Aluno encontrado!");
+                System.out.println("ID: " + aluno.getId());
+                System.out.println("Nome: " + aluno.getNome());
+                System.out.println("E-mail: " + aluno.getEmail());
+            } else { System.out.println("Aluno não encontrado!"); }
         }
     }
 }
