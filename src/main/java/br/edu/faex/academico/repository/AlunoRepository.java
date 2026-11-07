@@ -83,13 +83,27 @@ public class AlunoRepository {
 
 
     public void excluir(Long id){
-        for (Aluno aluno : alunos){
-            if(aluno.getId().equals(id)){
-                alunos.remove(aluno);
-                return;
+        String sql = "DELETE FROM alunos WHERE id = ?";
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement comando = conexao.prepareStatement(sql);
+            comando.setLong(1, id);
+            ResultSet resultado = comando.executeQuery();
+            if (resultado.next()) {
+                Aluno aluno = new Aluno();
+                aluno.setId(resultado.getLong("id"));
+                aluno.setNome(resultado.getString("nome"));
+                aluno.setEmail(resultado.getString("email"));
+                aluno.setAtivo(resultado.getBoolean("ativo"));
+                return ;
+
             }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar: " + e.getMessage());
         }
+        return null;
     }
+
 
     public void atualizar(Aluno alunoEditado){
         for (Aluno aluno : alunos){
